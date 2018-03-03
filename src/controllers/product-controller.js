@@ -110,11 +110,18 @@ controller.put = (req, res, next) => {
 };
 
 controller.delete = (req, res, next) => {
-    const id = req.params.id;
-    res.status(200).send(
-        {
-            id: id,
-            item: req.body
+    Product
+        .findByIdAndRemove(req.body.id)
+        .then(x => {
+            res.status(200).send({
+                message: 'Produto removido com sucesso!'
+            });
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Falha ao remover o produto!',
+                data: e
+            });
         });
 };
 
