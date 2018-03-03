@@ -5,6 +5,24 @@ const Product = mongoose.model('Product');
 
 const controller = {};
 
+controller.get = (req, res, next) => {
+    Product
+        .find({
+            active: true
+        },
+            'title price slug')
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Falha ao listar o produto!',
+                data: e
+            });
+        });
+
+};
+
 controller.post = (req, res, next) => {
     let product = new Product(req.body);
     product
