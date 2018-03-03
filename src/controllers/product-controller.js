@@ -20,7 +20,24 @@ controller.get = (req, res, next) => {
                 data: e
             });
         });
+};
 
+controller.getBySlug = (req, res, next) => {
+    Product
+        .findOne({
+            slug: req.params.slug,
+            active: true
+        },
+            'title description price slug tags')
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Falha ao listar o produto!',
+                data: e
+            });
+        });
 };
 
 controller.post = (req, res, next) => {
