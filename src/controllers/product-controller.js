@@ -1,10 +1,26 @@
 'use strict';
 
-exports.post = (req, res, next) => {
-    res.status(201).send(req.body);
+const mongoose = require('mongoose');
+const Product = mongoose.model('Product');
+
+const controller = {};
+
+controller.post = (req, res, next) => {
+    let product = new Product(req.body);
+    product
+        .save()
+        .then(x => {
+            res.status(201).send({ message: 'Produto cadastrado com sucesso!' });
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Falha ao cadastrar o produto!',
+                data: e
+            });
+        });
 };
 
-exports.put = (req, res, next) => {
+controller.put = (req, res, next) => {
     const id = req.params.id;
     res.status(200).send(
         {
@@ -13,7 +29,7 @@ exports.put = (req, res, next) => {
         });
 };
 
-exports.delete = (req, res, next) => {
+controller.delete = (req, res, next) => {
     const id = req.params.id;
     res.status(200).send(
         {
@@ -21,3 +37,5 @@ exports.delete = (req, res, next) => {
             item: req.body
         });
 };
+
+module.exports = controller;
