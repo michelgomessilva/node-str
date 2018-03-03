@@ -54,6 +54,23 @@ controller.getById = (req, res, next) => {
         });
 };
 
+controller.getByTag = (req, res, next) => {
+    Product
+        .find({
+            tags: req.params.tag,
+            active: true
+        }, 'title description price slug tags')
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Falha ao listar o produto!',
+                data: e
+            });
+        });
+};
+
 controller.post = (req, res, next) => {
     let product = new Product(req.body);
     product
