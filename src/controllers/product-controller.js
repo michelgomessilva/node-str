@@ -74,7 +74,7 @@ controller.put = async(req, res, next) => {
     } catch (error) {
         res.status(400).send({
             message: 'Falha ao atualiar o produto!',
-            data: e
+            data: error
         });
     }
 };
@@ -88,7 +88,7 @@ controller.delete = async(req, res, next) => {
     } catch (error) {
         res.status(400).send({
             message: 'Falha ao remover o produto!',
-            data: e
+            data: error
         });
     }
 };
@@ -96,15 +96,15 @@ controller.delete = async(req, res, next) => {
 module.exports = controller;
 
 function validator(data) {
-
     let contract = new ValidationContract();
+    
     contract.hasMinLen(data.title, 3, 'O título deve conter pelo menos 3 caracteres');
-    contract.hasMinLen(data.slug, 3, 'O título deve conter pelo menos 3 caracteres');
-    contract.hasMinLen(data.description, 3, 'O título deve conter pelo menos 3 caracteres');  
+    contract.hasMinLen(data.slug, 3, 'O slug deve conter pelo menos 3 caracteres');
+    contract.hasMinLen(data.description, 3, 'O description deve conter pelo menos 3 caracteres');  
     
     // Se os dados forem inválidos
     if (!contract.isValid()) {
-        throw contract.errors();
+       throw contract.errors
     }
 }
 
