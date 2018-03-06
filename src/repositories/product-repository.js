@@ -5,40 +5,41 @@ const Product = mongoose.model('Product');
 
 const repository = {};
 
-repository.getAll = () => {
-    return Product
-        .find({
+repository.getAll = async() => {
+    let res = await Product.find({
             active: true
-        }, 'title price slug')
+        }, 'title price slug');
+
+    return res;
 }
 
-repository.getBySlug = (slug) => {
-    return Product
+repository.getBySlug = async(slug) => {
+    return await Product
         .findOne({
             slug: slug,
             active: true
         }, 'title description price slug tags');
 }
 
-repository.getById= (id) => {
-    return Product.findById(id);
+repository.getById= async(id) => {
+    return await Product.findById(id);
 }
 
-repository.getByTag = (tag) => {
-    return Product
+repository.getByTag = async(tag) => {
+    return await Product
         .find({
             tags: tag,
             active: true
         }, 'title description price slug tags')
 }
 
-repository.create = (data) => {
+repository.create = async(data) => {
     let product = new Product(data);
-    return product.save()
+    await product.save();
 }
 
-repository.update = (id, data) => {
-    return Product
+repository.update = async(id, data) => {
+    await Product
         .findByIdAndUpdate(id,
         {
             $set: {
@@ -49,8 +50,8 @@ repository.update = (id, data) => {
         })
 }
 
-repository.delete = (id) => {
-    return Product.findByIdAndRemove(id);
+repository.delete = async(id) => {
+    await Product.findByIdAndRemove(id);
 }
 
 module.exports = repository;
