@@ -12,6 +12,8 @@ mongoose.connect('mongodb://mgsx:mgsx2410@ds251518.mlab.com:51518/mgsstore');
 
 // Carrega models
 const Product = require('./models/product');
+const Customer = require('./models/customer');
+const Order = require('./models/order');
 
 // Carrega as Rotas
 const indexRoute = require('./routes/index-route');
